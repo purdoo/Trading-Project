@@ -23,11 +23,13 @@ class Stock:
 		count = (days - n) + 1
 		for i in range(count):
 			sample = self.closing[i:i+n]
-			print(sample)
+			# consider converting to Decimal type
+			#movingAverages.append(round(np.mean(sample), 2))
+			movingAverages.append(float("{0:.2f}".format(np.mean(sample))))
 		return movingAverages
 
 """ Test Area - For when I don't want to put crap in the Program """
 s = Stock('Apple', 'AAPL')
 print(s.data)
-s.getMovingAverage(10,30)
+print(s.getMovingAverage(2,5))
 
