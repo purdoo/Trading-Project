@@ -9,10 +9,13 @@ import pytrade as pyt
 
 
 # Use of the custom library for this project
-#lastMonthClosing = QAPI.getClosing("AAPL", 30)
-lastWeekClosing = QAPI.getClosing("AAPL", 15)
-#print(lastMonthClosing)
-print(lastWeekClosing)
-avg = pyt.nDayAverage("AAPL", 7)
-print(avg)
+#lastWeekClosing = QAPI.getClosing("AAPL", 7)
+#print(lastWeekClosing)
+#avg = pyt.nDayAverage("AAPL", 7)
+#print(avg)
 
+# Use of class in pytrade
+
+s = pyt.Stock('Apple', 'AAPL')
+print(s.data)
+print(s.nDayAverage(15))
