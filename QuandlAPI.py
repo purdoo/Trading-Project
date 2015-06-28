@@ -3,7 +3,7 @@ import numpy as np
 # this file should contain the methods for requesting data
 # we should attempt to keep the main program as clean as possible
 
-# sample function
+
 
 def getClosing(stockname, n):
 	searchstring = "YAHOO/" + stockname + ".6"
