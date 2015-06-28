@@ -4,7 +4,7 @@ import numpy as np
 # we should attempt to keep the main program as clean as possible
 
 
-
+# not sure if we even need methods in this file anymore...
 def getClosing(stockname, n):
 	searchstring = "YAHOO/" + stockname + ".6"
 	# returns a Pandas series

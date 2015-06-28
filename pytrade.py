@@ -15,6 +15,16 @@ class Stock:
 		values = self.closing[:n]
 		return (round(np.mean(values),dec))
 
+	""" 
+	Parameters:
+		n (int) - the number of days considered for each average
+		days (int) - the number of days of data available
+		dec (int) - optional parameter, specifies the number of decimal places to round to
+	
+	Description:
+		Returns a list of 'n-day averages' for the stock's closing prices. 
+		Ordered from most recent (0 index) to oldest.
+	"""
 	def getMovingAverage(self, n, days, dec=2):
 		movingAverages = []
 		if(n > days):
@@ -24,12 +34,18 @@ class Stock:
 		for i in range(count):
 			sample = self.closing[i:i+n]
 			# consider converting to Decimal type
-			#movingAverages.append(round(np.mean(sample), 2))
+			#movingAverages.append(round(np.mean(sample), dec))
 			movingAverages.append(float("{0:.2f}".format(np.mean(sample))))
 		return movingAverages
+
+	"""
+	WIP 
+	"""
+	def getEMA(self, n):
+		pass
 
 """ Test Area - For when I don't want to put crap in the Program """
 s = Stock('Apple', 'AAPL')
 print(s.data)
-print(s.getMovingAverage(2,5))
+print(s.getMovingAverage(10,30))
 
