@@ -29,7 +29,7 @@ class Stock:
 		Returns a list of 'n-day averages' for the stock's closing prices. 
 		Ordered from most recent (0 index) to oldest.
 	"""
-	def getMovingAverage(self, n, days, dec=2):
+	def getSMA(self, n, days, dec=2):
 		movingAverages = []
 		if(n > days):
 			print("n cannot be greater than the number of days")
@@ -62,7 +62,7 @@ class Stock:
 def main():
 	s = Stock('Apple', 'AAPL')
 	#print(s.data)
-	print(s.getMovingAverage(10,30))
+	print(s.getSMA(10,30))
 	print(s.getEMA(10,30))
 
 if __name__ == "__main__":
