@@ -58,12 +58,22 @@ class Stock:
 			prevEMA = currEMA
 		return EMA[::-1] # reverse the list 
 
+	def getBollingerBands(self):
+		print(np.std(self.getSMA(10,30)))
+
+
+def standardDev(self, n):
+	pass
+
+
 """ Test Area - For when I don't want to put crap in the Program """
 def main():
 	s = Stock('Apple', 'AAPL')
 	#print(s.data)
-	print(s.getSMA(10,30))
-	print(s.getEMA(10,30))
+	#print(s.getSMA(10,30))
+	#print(s.getEMA(10,30))
+	s.getBollingerBands()
+
 
 if __name__ == "__main__":
     main()
