@@ -36,16 +36,28 @@ class Stock:
 			# consider converting to Decimal type
 			#movingAverages.append(round(np.mean(sample), dec))
 			movingAverages.append(float("{0:.2f}".format(np.mean(sample))))
+		#print(len(movingAverages))
 		return movingAverages
 
 	"""
 	WIP 
 	"""
-	def getEMA(self, n):
-		pass
+	def getEMA(self, n, days):
+		EMA = []
+		closing = self.closing[0:days]
+		weight = (2/(n + 1)) # also known as the smoothing constant
+		# need first moving average to calculate first EMA
+		prevEMA = np.mean(closing[-n:])
+		#print(firstAverage)
+		for i in range((days - n) + 1):
+			currEMA = (((closing[-(n + i)] - prevEMA) * weight) + prevEMA)
+			EMA.append(float("{0:.2f}".format(float(currEMA))))
+		#print(len(EMA))
+		return EMA[::-1] # reversed list 
 
 """ Test Area - For when I don't want to put crap in the Program """
 s = Stock('Apple', 'AAPL')
-print(s.data)
+#print(s.data)
 print(s.getMovingAverage(10,30))
-
+print(s.getEMA(10,30))
+#s.getEMA(10,30)
