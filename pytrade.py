@@ -82,9 +82,10 @@ def standardDev(self, n):
 
 """ Test Area - For when I don't want to put crap in the Program """
 def main():
-	s = Stock('Apple', 'AAPL', 10)
-	#s = Stock('Google', 'GOOG', 10)
-
+	#s = Stock('Apple', 'AAPL', 10)
+	s = Stock('Google', 'GOOG', 10)
+	#s = Stock('Test', 'CWEI', 10)
+	
 	#print(s.data)
 	#print(s.getSMA(30))
 	#print(s.getEMA(30))
@@ -92,10 +93,11 @@ def main():
 	#print(s.Dates)
 	bollingerBands = s.getBollingerBands(30)
 	temp = list(range(21))
-	plt.plot(temp, s.SMA)
-	plt.plot(temp, s.EMA)
-	plt.plot(temp, bollingerBands[0])
-	plt.plot(temp, bollingerBands[1])
+	plt.plot(temp, s.SMA, label='Simple Moving Average')
+	plt.plot(temp, s.EMA, label='Exponential Moving Average')
+	plt.plot(temp, bollingerBands[0], label='Upper Bollinger Band')
+	plt.plot(temp, bollingerBands[1], label='Lower Bollinger Band')
+	plt.legend(loc='upper right')
 	plt.show()
 if __name__ == "__main__":
     main()
