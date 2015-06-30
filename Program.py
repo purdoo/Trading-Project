@@ -5,8 +5,8 @@ import pytrade as pyt
 
 
 # sample use of QuandlAPI library
-#lastMonthClosing = Q.get("YAHOO/AAPL.6", rows=30, sort_order='desc', authtoken="QyJB1_5vMdTh-GSMWar7")
-
+lastMonthClosing = Q.get("YAHOO/AAPL.6", rows=30, sort_order='desc', authtoken="QyJB1_5vMdTh-GSMWar7")
+print(lastMonthClosing.index.tolist())
 
 # Use of the custom library for this project
 #lastWeekClosing = QAPI.getClosing("AAPL", 7)
@@ -15,7 +15,8 @@ import pytrade as pyt
 #print(avg)
 
 # Use of class in pytrade
-
+"""
 s = pyt.Stock('Apple', 'AAPL')
 print(s.data)
 print(s.nDayAverage(15))
+"""
