@@ -6,6 +6,8 @@ import pandas as pd
 #import TestScripts as test
 import matplotlib.pyplot as plt
 import matplotlib
+
+
 class Stock:
 	def __init__(self, name, symbol, n = 10, period = 30, testclosing = []):
 		self.name = name
@@ -80,9 +82,22 @@ class Stock:
 		#return stdev[::-1]
 		return (upperBand, lowerBand)
 
+
+""" Bollinger Bands Plotting Function """
 def bollinger(symbol, n = 10, period = 30):
 	s = Stock('Name', symbol, n, period)
+	plt.title(s.symbol)
+	plt.xlabel('Date')
+	plt.ylabel('Stock Value')
+	plt.plot_date(s.dates, s.SMA, '-', label='Simple Moving Average')
+	plt.plot_date(s.dates, s.EMA, '-', label='Exponential Moving Average')
+	plt.plot_date(s.dates, s.Bollinger[0], '--', label='Upper Bollinger Band')
+	plt.plot_date(s.dates, s.Bollinger[1], '--', label='Lower Bollinger Band')
+	plt.legend(loc='upper right')
+	plt.show()
 	return 0
+
+
 
 """ Test Area - For when I don't want to put crap in the Program """
 def main():

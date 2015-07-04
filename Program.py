@@ -10,9 +10,6 @@ import pytrade as pyt
 
 # Use of BollingerBands function in pytrade
 
-
-"""
-s = pyt.Stock('Apple', 'AAPL')
-print(s.data)
-print(s.nDayAverage(15))
-"""
+pyt.bollinger('AAPL', 10, 90)
+#pyt.bollinger('GOOG', 10, 90)
+#pyt.bollinger('NFLX', 10, 30)
