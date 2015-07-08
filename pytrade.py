@@ -30,16 +30,6 @@ class Stock:
 		values = self.closing[:n]
 		return (round(np.mean(values),dec))
 
-	""" 
-	Parameters:
-		n (int) - the number of days considered for each average
-		days (int) - the number of days of data available
-		dec (int) - optional parameter, specifies the number of decimal places to round to
-	
-	Description:
-		Returns a list of 'n-day averages' for the stock's closing prices. 
-		Ordered from oldest to newest (left to right)
-	"""
 	def getSMA(self, dec=2):
 		movingAverages = []
 		if(self.n > self.period):
@@ -52,9 +42,6 @@ class Stock:
 			movingAverages.append(float("{0:.2f}".format(np.mean(sample))))
 		return movingAverages[::-1] # reverse the list 
 
-	"""
-	WIP 
-	"""
 	def getEMA(self):
 		EMA = []
 		closing = self.closing[0:self.period]
@@ -82,7 +69,20 @@ class Stock:
 		#return stdev[::-1]
 		return (upperBand, lowerBand)
 
+class Delta:
+	def __init__(self, name, symbol, period = 30):
+		self.period = period
+		self.closing = QAPI.getClosing(symbol, period)
+		self.delta = self.getDelta()
 
+	def getDelta(self):
+		deltas = []
+		for i in range(self.period - 1):
+			#print(self.closing[-(i+1)])
+			delta = self.closing[-(i+1)] - self.closing[-(i+2)] 
+
+			deltas.append(-(float(delta)))
+		return deltas
 """ Bollinger Bands Plotting Function """
 def bollinger(symbol, n = 10, period = 30):
 	s = Stock('Name', symbol, n, period)
@@ -98,17 +98,20 @@ def bollinger(symbol, n = 10, period = 30):
 	return 0
 
 
+""" Change in Closing Price Plotting Function """
+def delta(symbol, period = 30):
+	pass
 
 """ Test Area - For when I don't want to put crap in the Program """
 def main():
-	s = Stock('Apple', 'AAPL', 10, 30)
+	#s = Stock('Apple', 'AAPL', 10, 30)
 	#s = Stock('Google', 'GOOG', 10)
 	#s = Stock('Test', 'CWEI', 10)
-	
-	#print(s.dates)
-	print(len(s.dates))
-	temp = list(range(s.period - s.n + 1))
 
+	s = Delta('Apple', 'AAPL', 30)
+	#print(s.closing)
+	print(s.delta)
+	"""
 	# plotting logic
 	#plt.title('Bollinger Bands w/ SMA and EMA')
 	plt.title(s.symbol)
@@ -118,17 +121,10 @@ def main():
 	plt.plot_date(s.dates, s.EMA, '-', label='Exponential Moving Average')
 	plt.plot_date(s.dates, s.Bollinger[0], '--', label='Upper Bollinger Band')
 	plt.plot_date(s.dates, s.Bollinger[1], '--', label='Lower Bollinger Band')
-
-	"""
-	plt.plot(temp, s.SMA, label='Simple Moving Average')
-	plt.plot(temp, s.EMA, label='Exponential Moving Average')
-	plt.plot(temp, s.Bollinger[0], '--', label='Upper Bollinger Band')
-	plt.plot(temp, s.Bollinger[1], '--', label='Lower Bollinger Band')
-	"""
 	plt.legend(loc='upper right')
-	
 
 	plt.show()
+	"""
 if __name__ == "__main__":
     main()
 
