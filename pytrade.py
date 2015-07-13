@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 
-
+""" Bollinger Bands Class """
 class Stock:
 	def __init__(self, name, symbol, n = 10, period = 30, testclosing = []):
 		self.name = name
@@ -74,15 +74,17 @@ class Delta:
 		self.period = period
 		self.closing = QAPI.getClosing(symbol, period)
 		self.delta = self.getDelta()
-
+		self.symbol = symbol
+		self.data = Q.get("YAHOO/AAPL", rows=period, sort_order='desc', authtoken="QyJB1_5vMdTh-GSMWar7")
+		self.dates = pd.to_datetime(self.data.index[0:period-1], unit='D').values[::-1]
 	def getDelta(self):
 		deltas = []
 		for i in range(self.period - 1):
 			#print(self.closing[-(i+1)])
 			delta = self.closing[-(i+1)] - self.closing[-(i+2)] 
-
 			deltas.append(-(float(delta)))
 		return deltas
+
 """ Bollinger Bands Plotting Function """
 def bollinger(symbol, n = 10, period = 30):
 	s = Stock('Name', symbol, n, period)
@@ -100,7 +102,13 @@ def bollinger(symbol, n = 10, period = 30):
 
 """ Change in Closing Price Plotting Function """
 def delta(symbol, period = 30):
-	pass
+	s = Delta('Name', symbol, period)
+	print(len(s.delta))
+	plt.title(s.symbol)
+	plt.xlabel('Date')
+	plt.ylabel('Change')
+	plt.bar(s.dates, s.delta)
+	plt.show()
 
 """ Test Area - For when I don't want to put crap in the Program """
 def main():
@@ -108,9 +116,9 @@ def main():
 	#s = Stock('Google', 'GOOG', 10)
 	#s = Stock('Test', 'CWEI', 10)
 
-	s = Delta('Apple', 'AAPL', 30)
+	
 	#print(s.closing)
-	print(s.delta)
+	
 	"""
 	# plotting logic
 	#plt.title('Bollinger Bands w/ SMA and EMA')
