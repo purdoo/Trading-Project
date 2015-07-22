@@ -11,6 +11,6 @@ import pytrade as pyt
 # Use of BollingerBands function in pytrade
 
 pyt.bollinger('AAPL', 10, 90)
-#pyt.bollinger('GOOG', 10, 30)
+pyt.bollinger('GOOG', 10, 90)
 #pyt.bollinger('NFLX', 10, 30)
 #pyt.delta('GOOG', 30)

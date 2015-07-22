@@ -5,7 +5,7 @@ import QuandlAPI as QAPI
 import pandas as pd
 #import TestScripts as test
 import matplotlib.pyplot as plt
-
+import pymath as pm
 
 """ Bollinger Bands Class """
 class Stock:
@@ -15,8 +15,8 @@ class Stock:
 		self.n = n
 		self.period = period
 		self.closing = QAPI.getClosing(symbol, period)
-		self.SMA = self.getSMA()
-		self.EMA = self.getEMA()
+		self.SMA = pm.getSMA(self.closing, n, period)
+		self.EMA = pm.getEMA(self.closing, n, period)
 		self.Bollinger = self.getBollingerBands()
 
 		# sanity check
@@ -29,47 +29,18 @@ class Stock:
 		values = self.closing[:n]
 		return (round(np.mean(values),dec))
 
-	def getSMA(self, dec=2):
-		movingAverages = []
-		if(self.n > self.period):
-			print("n cannot be greater than the number of days")
-			return movingAverages
-		count = (self.period - self.n) + 1
-		for i in range(count):
-			sample = self.closing[i:(i+self.n)]
-			#sample = self.testclosing[i:i+n] # test method
-			movingAverages.append(float("{0:.2f}".format(np.mean(sample))))
-		return movingAverages[::-1] # reverse the list 
-
-	def getEMA(self):
-		EMA = []
-		closing = self.closing[0:self.period]
-		#closing = self.testclosing[0:days] # test method
-		weight = (2/(self.n + 1)) # also known as the smoothing constant
-		# need first moving average to calculate first EMA
-		prevEMA = np.mean(closing[-self.n:])
-		EMA.append(float("{0:.2f}".format(float(prevEMA))))
-		for i in range((self.period - self.n)):
-			currEMA = (((closing[-(self.n + i + 1)] - prevEMA) * weight) + prevEMA)
-			EMA.append(float("{0:.2f}".format(float(currEMA))))
-			prevEMA = currEMA
-		return EMA
-
 	def getBollingerBands(self):
-		#print(np.std(self.getSMA(10,30)))
 		stdev, upperBand, lowerBand = [], [], []
 		closing = self.closing[0:self.period]
 		count = (self.period - self.n) + 1
 		for i in range(count):
 			sample = self.closing[i:(i+self.n)]
-			print(sample)
 			stdev.append(np.std(sample))
-			print(1*np.std(sample))
-			print(self.SMA[i])
 			upperBand.append(self.SMA[-(i+1)] + (1*np.std(sample)))
 			lowerBand.append(self.SMA[-(i+1)] - (1*np.std(sample)))
-		#return stdev[::-1]
 		return (upperBand[::-1], lowerBand[::-1])
+
+""" End Bolling Bands Class """
 
 class Delta:
 	def __init__(self, name, symbol, period = 30):
@@ -87,6 +58,8 @@ class Delta:
 			deltas.append(-(float(delta)))
 		return deltas
 
+
+""" *******PLOTTING FUNCTIONS******** """
 """ Bollinger Bands Plotting Function """
 def bollinger(symbol, n = 10, period = 30):
 	s = Stock('Name', symbol, n, period)
@@ -112,29 +85,13 @@ def delta(symbol, period = 30):
 	plt.bar(s.dates, s.delta)
 	plt.show()
 
+
+
+
+
 """ Test Area - For when I don't want to put crap in the Program """
 def main():
-	#s = Stock('Apple', 'AAPL', 10, 30)
-	#s = Stock('Google', 'GOOG', 10)
-	#s = Stock('Test', 'CWEI', 10)
-
-	
-	#print(s.closing)
-	
-	"""
-	# plotting logic
-	#plt.title('Bollinger Bands w/ SMA and EMA')
-	plt.title(s.symbol)
-	plt.xlabel('Date')
-	plt.ylabel('Stock Value')
-	plt.plot_date(s.dates, s.SMA, '-', label='Simple Moving Average')
-	plt.plot_date(s.dates, s.EMA, '-', label='Exponential Moving Average')
-	plt.plot_date(s.dates, s.Bollinger[0], '--', label='Upper Bollinger Band')
-	plt.plot_date(s.dates, s.Bollinger[1], '--', label='Lower Bollinger Band')
-	plt.legend(loc='upper right')
-
-	plt.show()
-	"""
+	pass
 if __name__ == "__main__":
     main()
 
