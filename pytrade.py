@@ -5,7 +5,7 @@ import QuandlAPI as QAPI
 import pandas as pd
 #import TestScripts as test
 import matplotlib.pyplot as plt
-import matplotlib
+
 
 """ Bollinger Bands Class """
 class Stock:
@@ -21,7 +21,6 @@ class Stock:
 
 		# sanity check
 		self.data = Q.get("YAHOO/AAPL", rows=period, sort_order='desc', authtoken="QyJB1_5vMdTh-GSMWar7")
-		#self.Dates = matplotlib.dates.date2num(self.data.index.tolist())
 		self.dates = pd.to_datetime(self.data.index[0:period-n+1], unit='D').values[::-1]
 		self.testclosing = testclosing
 
@@ -63,11 +62,14 @@ class Stock:
 		count = (self.period - self.n) + 1
 		for i in range(count):
 			sample = self.closing[i:(i+self.n)]
+			print(sample)
 			stdev.append(np.std(sample))
-			upperBand.append(self.SMA[i] + (1*np.std(sample)))
-			lowerBand.append(self.SMA[i] - (1*np.std(sample)))
+			print(1*np.std(sample))
+			print(self.SMA[i])
+			upperBand.append(self.SMA[-(i+1)] + (1*np.std(sample)))
+			lowerBand.append(self.SMA[-(i+1)] - (1*np.std(sample)))
 		#return stdev[::-1]
-		return (upperBand, lowerBand)
+		return (upperBand[::-1], lowerBand[::-1])
 
 class Delta:
 	def __init__(self, name, symbol, period = 30):
