@@ -40,8 +40,17 @@ class Stock:
 			lowerBand.append(self.SMA[-(i+1)] - (1*np.std(sample)))
 		return (upperBand[::-1], lowerBand[::-1])
 
-""" End Bolling Bands Class """
+""" MACD Class """
+class MACD:
+	def __init__(self, name, symbol, n, period):
+		self.name = name
+		self.symbol = symbol
+		self.closing = QAPI.getClosing(symbol, period + 26)
+		self.shorter = pm.getEMA(self.closing, 12, period)
+		self.longer = pm.getEMA(self.closing, 26, period)
+		self.MACD = [a - b for a, b in zip(self.shorter, self.longer)]
 
+""" Delta Class """
 class Delta:
 	def __init__(self, name, symbol, period = 30):
 		self.period = period
